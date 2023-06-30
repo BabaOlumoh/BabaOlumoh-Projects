@@ -1,7 +1,7 @@
 //  ContentView.swift
 //  QuadraticSolver
 //  Starter project code
-//  Created by Philip Trwoga on 09/02/2023.
+//  Created by Babatunde Olumoh on 30/06/2023.
 //
 
 import SwiftUI
@@ -9,95 +9,88 @@ import SwiftUI
 
 struct ContentView: View {
     //state vars for a,b,c,x1, and x2
-    
+    @State private var a:Double = 0
+    @State private var b:Double = 0
+    @State private var c:Double = 0
+    @State private var x1:Double = 0
+    @State private var x2:Double = 0
     //data persistence
-    @AppStorage("STRING_A") var saveA:Double = 0
-    @AppStorage("STRING_Ax") var saveAx = ""
-    @AppStorage("STRING_Bx") var saveBx = ""
-    @AppStorage("STRING_Cx") var saveCx = ""
-    @AppStorage("STRING_B") var saveB:Double = 0
-    @AppStorage("STRING_C") var saveC:Double = 0
-    @AppStorage("NUMBER_x1") var saveX1 = 0
-    @AppStorage("NUMBER_x2") var countX2 = 0
-    @AppStorage("NUMBER_Result") var resultA:Double = 0
+    @AppStorage("STRING_A") var textA = ""
+    @AppStorage("STRING_B") var textB = ""
+    @AppStorage("STRING_C") var textC = ""
+    @AppStorage("NUMBER_RESULT") var resultx1:Double = 0
+    @AppStorage("NUMBER_RESULT2") var resultx2:Double = 0
     var body: some View {
         ScrollView {
             VStack {
-                  Text("Quadratic Solver")
+                Text("Quadratic Solver")
                     .font(.title)
+                    .bold()
                     .padding()
                 
-                Label(title: {Text("The quadratic form is:")}, icon:{} )
+                Label(title: {Text("The quadratic form is:")}, icon: {})
+                
                 Image("quadraticForm")
                     .resizable()
-                    .padding()
                 
-                //A
-                Label(title: {Text("Enter the first term")}, icon:{Image(systemName: "a.circle.fill")} )
+                Label(title: {Text("Enter the first term")}, icon: {Image(systemName: "a.circle.fill")})
                     .font(.title)
                 
-                TextField("Enter quadratic term", text: $saveAx)
-                    .font(.title)
-                    .background(Color.gray.opacity(0.3))
+                TextField("0.0", text: $textA)
                     .border(Color.black)
                     .padding()
-                
-                    
-                    
-                
-                //B
-                Label(title: {Text("Enter the second term")}, icon:{Image(systemName: "b.circle.fill")} )
                     .font(.title)
                 
-                TextField("Enter linear term", text: $saveBx)
+                Label(title: {Text("Enter the second term")}, icon: {Image(systemName: "b.circle.fill")})
                     .font(.title)
-                    .background(Color.gray.opacity(0.3))
+                
+                TextField("0.0", text: $textB)
                     .border(Color.black)
                     .padding()
-                
-                //C
-                Label(title: {Text("Enter the three term")}, icon:{Image(systemName: "c.circle.fill")} )
                     .font(.title)
                 
-                TextField("Enter constant term", text: $saveCx)
+                Label(title: {Text("Enter the third term")}, icon: {Image(systemName: "c.circle.fill")})
                     .font(.title)
-                    .background(Color.gray.opacity(0.3))
+                
+                TextField("0.0", text: $textC)
                     .border(Color.black)
                     .padding()
-                // etc.
+                    .font(.title)
                 
-                Button("solve for x"){
+                Button("Solve"){
                     solveForX()
                 }
-                
             }
+            Text("Your result is \(resultx1) \(resultx2)")
+                .padding()
         }
-           Text("Your result is \(resultA)")
-            
-            
+           
     }
     func solveForX()
     {
-        if let saveADouble = Double(self.saveAx){
-            saveA=saveADouble
+        if let saveADouble = Double(self.textA){
+            a=saveADouble
+
         }
-        if let saveBDouble = Double(self.saveBx){
-            saveB=saveBDouble
+        if let saveBDouble = Double(self.textB){
+            b=saveBDouble
+
         }
-        if let saveCDouble = Double(self.saveCx){
-            saveC=saveCDouble
+        if let saveCDouble = Double(self.textC){
+            c=saveCDouble
         }
-        
-        self.resultA=saveA+saveB+saveC
-        
+   
+        let calc = b * b - 4 * a * c
+        self.resultx1=(-b + sqrt(calc)) / (2 * a)
+        self.resultx2=(-b - sqrt(calc)) / (2 * a)
     }
-}
-
-
-
-
-struct ContentView_Previews: PreviewProvider {
-    static var previews: some View {
-        ContentView()
+    
+    
+    
+    
+    struct ContentView_Previews: PreviewProvider {
+        static var previews: some View {
+            ContentView()
+        }
     }
 }
